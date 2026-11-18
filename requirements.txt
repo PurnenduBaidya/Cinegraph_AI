@@ -1,0 +1,38 @@
+# CineGraph AI - Python AI service dependencies
+# Install with: uv pip install -r requirements.txt
+
+
+# API service
+fastapi
+uvicorn[standard]
+pydantic
+python-multipart
+python-dotenv
+pandas
+pyarrow
+
+# Neo4j graph database
+neo4j
+
+# LLM and orchestration
+langchain
+langchain-core
+langchain-community
+langchain-text-splitters
+
+langchain-groq
+langchain-openai
+langchain-mistralai
+langchain-google-genai
+
+chromadb
+langchain-chroma
+
+# Embeddings and semantic retrieval
+sentence-transformers
+langchain-huggingface
+
+# HTTP client (useful for calling external APIs)
+requests
+httpx
+rich
