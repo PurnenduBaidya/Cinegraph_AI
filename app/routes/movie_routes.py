@@ -7,7 +7,6 @@ router = APIRouter(
     tags=["Movies"]
 )
 
-
 @router.get("/")
 def get_all_movies(limit: int = 20):
 
