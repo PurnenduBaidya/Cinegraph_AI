@@ -7,13 +7,16 @@ router = APIRouter(
     tags=["Movies"]
 )
 
+
 @router.get("/")
 def get_all_movies(limit: int = 20):
+
     if limit < 1 or limit > 100:
         raise HTTPException(
             status_code=400,
             detail="Limit must be between 1 and 100"
         )
+
     query = """
     MATCH (m:Movie)
     RETURN
@@ -21,20 +24,23 @@ def get_all_movies(limit: int = 20):
         m.title AS title,
         m.year AS year,
         m.imdbRating AS imdb_rating
-    ORDER BY m.title
+    ORDER BY rand()
     LIMIT $limit
     """
+
     with driver.session(database=NEO4J_DATABASE) as session:
         records = session.run(
             query,
             limit=limit
         )
+
         movies = [record.data() for record in records]
 
     return {
         "total": len(movies),
         "movies": movies
     }
+
 
 @router.get("/{movie_key}")
 def get_movie(movie_key: str):
