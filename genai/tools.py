@@ -124,20 +124,20 @@ def get_movie_details(movie_key: str) -> str:
     )
 
 
-if __name__ == "__main__":
-   tools=[
-       recommend_similar_movies,
-       search_movie_by_title,
-       get_movie_details
-   ]
+# if __name__ == "__main__":
+#    tools=[
+#        recommend_similar_movies,
+#        search_movie_by_title,
+#        get_movie_details
+#    ]
 
-   llm_with_tools = llm.bind_tools(tools)
+#    llm_with_tools = llm.bind_tools(tools)
 
-   result = get_movie_details.invoke({
-        "movie_key": "tt1375666"
-    })
+#    result = get_movie_details.invoke({
+#         "movie_key": "tt1375666"
+#     })
 
-   print(result)
+#    print(result)
         
 #    print("LLM Response:")
 #    print(response)

@@ -1,6 +1,8 @@
 from fastapi import APIRouter, HTTPException
 from app.database.neo4j import driver, NEO4J_DATABASE
 from app.recommender.content_based import get_content_recommendations
+from app.recommender.friend_based import get_friend_recommendations
+from app.recommender.hybrid import get_hybrid_recommendations
 
 router = APIRouter(
     prefix="/movies",
@@ -85,6 +87,50 @@ def get_recommendations(movie_key: str, limit: int = 10):
         raise HTTPException(
             status_code=404,
             detail="Movie not found or no recommendations available"
+        )
+
+    return recommendations
+
+@router.get("/{user_id}/recommendations")
+def friends_recommendations(user_id: str, limit: int = 10):
+
+    if limit < 1 or limit > 50:
+        raise HTTPException(
+            status_code=400,
+            detail="Limit must be between 1 and 50"
+        )
+
+    recommendations = get_friend_recommendations(
+        user_id=user_id,
+        limit=limit
+    )
+
+    if recommendations is None:
+        raise HTTPException(
+            status_code=404,
+            detail="User not found"
+        )
+
+    return recommendations
+
+@router.get("/{user_id}/hybrid_recommendations")
+def hybrid_recommendations(user_id: str, limit: int = 10):
+
+    if limit < 1 or limit > 50:
+        raise HTTPException(
+            status_code=400,
+            detail="Limit must be between 1 and 50"
+        )
+
+    recommendations = get_hybrid_recommendations(
+        user_id=user_id,
+        limit=limit
+    )
+
+    if recommendations is None:
+        raise HTTPException(
+            status_code=404,
+            detail="User not found"
         )
 
     return recommendations
